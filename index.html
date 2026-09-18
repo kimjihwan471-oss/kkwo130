@@ -1,5 +1,190 @@
-<script>
-        // 실제 퀴즈 데이터 10개
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스윗 DJ 퀴즈</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #050b14 0%, #0a1128 50%, #101c3d 100%);
+            color: #f1f5f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #38bdf8;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(51, 65, 85, 0.8);
+            box-shadow: none;
+        }
+        .btn-secondary:hover {
+            background: #475569;
+            box-shadow: none;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .quiz-box {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: #f8fafc;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: rgba(30, 41, 59, 0.9);
+            border: 1px solid #334155;
+            color: #f1f5f9;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .option-btn:hover {
+            background-color: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 홈 화면 -->
+        <div id="home-section" class="section active">
+            <h1>스윗 DJ 퀴즈</h1>
+            <p class="subtitle">스윗에 대해 얼마나 알고 있을까요?</p>
+            <input type="text" id="username" placeholder="스스로의 닉네임을 입력하세요">
+            <div>
+                <button class="btn" onclick="startQuiz()">퀴즈 시작</button>
+                <button class="btn btn-secondary" onclick="showRanking()">현재 순위 보기</button>
+                <button class="btn btn-secondary" onclick="showAdmin()">관리자 모드</button>
+            </div>
+        </div>
+
+        <!-- 퀴즈 화면 -->
+        <div id="quiz-section" class="section">
+            <h2 id="quiz-progress" style="color: #38bdf8; margin-bottom: 15px; font-size: 1.1rem;">1 / 10 현재 점수: 0</h2>
+            <div class="quiz-box" id="quiz-question">문제가 여기에 표시됩니다.</div>
+            <div class="options-list" id="quiz-options"></div>
+        </div>
+
+        <!-- 결과 화면 -->
+        <div id="result-section" class="section">
+            <h1>퀴즈 완료!</h1>
+            <p class="subtitle" id="final-score-text">수고하셨습니다!</p>
+            <button class="btn" onclick="showRanking()">순위 보기</button>
+            <button class="btn btn-secondary" onclick="goHome()">처음으로</button>
+        </div>
+
+        <!-- 순위 화면 -->
+        <div id="ranking-section" class="section">
+            <h1>스윗 퀴즈 순위</h1>
+            <div id="ranking-list" style="margin: 20px 0; color: #94a3b8; font-size: 0.95rem; max-height: 200px; overflow-y: auto;">
+                등록된 순위가 없습니다.
+            </div>
+            <button class="btn btn-secondary" onclick="goHome()">처음으로</button>
+        </div>
+
+        <!-- 관리자 화면 -->
+        <div id="admin-section" class="section">
+            <h1>관리자 모드</h1>
+            <p class="subtitle">문제와 정답을 관리할 수 있습니다.</p>
+            <div style="margin-bottom: 15px;">
+                <button class="btn" onclick="addQuestionPrompt()">+ 문제 추가</button>
+                <button class="btn btn-secondary" onclick="goHome()">나가지</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
         const quizData = [
             { question: "스윗의 아이디는?", options: ["kkwo130", "sweet_dj", "kimji_130", "dj_kkwo"], answer: 0 },
             { question: "스윗의 팬 수는?", options: ["50명", "73명", "100명", "120명"], answer: 1 },
@@ -59,7 +244,7 @@
 
         function checkAnswer(selectedIndex, correctIndex) {
             if (selectedIndex === correctIndex) {
-                score += 10; // 10문제이므로 문제당 10점
+                score += 10;
             }
             currentQuestionIndex++;
             loadQuestion();
@@ -74,7 +259,7 @@
         function saveScoreToRanking(name, userScore) {
             let rankings = JSON.parse(localStorage.getItem('sweetQuizRankings') || '[]');
             rankings.push({ name: name, score: userScore });
-            rankings.sort((a, b) => b.score - a.score); // 점수 높은순 정렬
+            rankings.sort((a, b) => b.score - a.score);
             localStorage.setItem('sweetQuizRankings', JSON.stringify(rankings));
         }
 
@@ -89,8 +274,8 @@
             }
 
             let html = '<ol style="text-align: left; display: inline-block; padding-left: 20px;">';
-            rankings.forEach((r, idx) => {
-                html += `<li style="margin-bottom: 8px;"><b>${r.name}</b> - ${r.score}점</li>`;
+            rankings.forEach((r) => {
+                html += `<li style="margin-bottom: 6px;"><b>${r.name}</b> — ${r.score}점</li>`;
             });
             html += '</ol>';
             rankingListEl.innerHTML = html;
@@ -108,3 +293,5 @@
             alert('문제 추가 기능은 추후 업데이트됩니다!');
         }
     </script>
+</body>
+</html>
