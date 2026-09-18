@@ -1,179 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>스윗 DJ 퀴즈</title>
-
-    <link
-        rel="stylesheet"
-        href="/static/style.css"
-    >
-
+    <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
-
 <main class="container">
-
-    <!-- 시작 화면 -->
-
-    <section
-        id="startScreen"
-        class="card"
-    >
-
+    <section id="startScreen" class="card">
         <h1>스윗 DJ 퀴즈</h1>
-
-        <p>
-            스윗에 대해 얼마나 알고 있을까요?
-        </p>
-
-        <input
-            id="nickname"
-            maxlength="30"
-            placeholder="스푼 닉네임을 입력하세요"
-        >
-
-        <button onclick="startQuiz()">
-            퀴즈 시작
-        </button>
-
-        <button
-            class="sub"
-            onclick="showRanking()"
-        >
-            현재 순위 보기
-        </button>
-
-        <button
-            class="admin-link"
-            onclick="adminLogin()"
-        >
-            관리자 모드
-        </button>
-
+        <p>스윗에 대해 얼마나 알고 있을까요?</p>
+        <input id="nickname" maxlength="30" placeholder="스푼 닉네임을 입력하세요">
+        <button onclick="startQuiz()">퀴즈 시작</button>
+        <button class="sub" onclick="showRanking()">현재 순위 보기</button>
+        <button class="admin-link" onclick="adminLogin()">관리자 모드</button>
     </section>
 
-
-    <!-- 퀴즈 -->
-
-    <section
-        id="quizScreen"
-        class="card hidden"
-    >
-
+    <section id="quizScreen" class="card hidden">
         <div class="topline">
-
-            <span id="progress">
-                1 / 10
-            </span>
-
-            <span id="score">
-                현재 점수: 0
-            </span>
-
+            <span id="progress">1 / 10</span>
+            <span id="score">현재 점수: 0</span>
         </div>
-
         <h2 id="question"></h2>
-
         <div id="answers"></div>
-
     </section>
 
-
-    <!-- 결과 -->
-
-    <section
-        id="resultScreen"
-        class="card hidden"
-    >
-
-        <h1>
-            퀴즈 완료!
-        </h1>
-
+    <section id="resultScreen" class="card hidden">
+        <h1>퀴즈 완료!</h1>
         <p id="resultText"></p>
-
-        <button onclick="showRanking()">
-            순위 보기
-        </button>
-
-        <button
-            class="sub"
-            onclick="location.reload()"
-        >
-            다시 하기
-        </button>
-
+        <button onclick="showRanking()">순위 보기</button>
+        <button class="sub" onclick="location.reload()">다시 하기</button>
     </section>
 
-
-    <!-- 순위 -->
-
-    <section
-        id="rankingScreen"
-        class="card hidden"
-    >
-
-        <h1>
-            스윗 퀴즈 순위
-        </h1>
-
+    <section id="rankingScreen" class="card hidden">
+        <h1>스윗 퀴즈 순위</h1>
         <div id="ranking"></div>
-
-        <button onclick="location.reload()">
-            처음으로
-        </button>
-
+        <button onclick="location.reload()">처음으로</button>
     </section>
 
-
-    <!-- 관리자 -->
-
-    <section
-        id="adminScreen"
-        class="card hidden"
-    >
-
-        <h1>
-            관리자 모드
-        </h1>
-
-        <p class="notice">
-            문제와 정답을 수정할 수 있습니다.
-        </p>
-
+    <section id="adminScreen" class="card hidden">
+        <h1>관리자 모드</h1>
+        <p class="notice">문제와 정답을 수정할 수 있습니다.</p>
         <div id="adminQuestions"></div>
-
-        <button onclick="addQuestion()">
-            + 문제 추가
-        </button>
-
-        <button onclick="saveQuestions()">
-            변경사항 저장
-        </button>
-
-        <button
-            class="sub"
-            onclick="location.reload()"
-        >
-            나가기
-        </button>
-
+        <button onclick="addQuestion()">+ 문제 추가</button>
+        <button onclick="saveQuestions()">변경사항 저장</button>
+        <button class="sub" onclick="location.reload()">나가기</button>
     </section>
-
 </main>
-
 <script src="/static/script.js"></script>
-
 </body>
-
 </html>
