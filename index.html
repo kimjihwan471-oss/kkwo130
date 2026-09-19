@@ -84,7 +84,7 @@
             margin-bottom: 25px;
         }
 
-        input[type="text"], input[type="password"], select {
+        input[type="text"], input[type="password"], input[type="file"], select {
             width: 100%;
             padding: 12px 16px;
             background-color: rgba(30, 41, 59, 0.8);
@@ -100,6 +100,11 @@
         input[type="text"]:focus, input[type="password"]:focus, select:focus {
             border-color: #38bdf8;
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
         }
 
         .btn {
@@ -230,10 +235,13 @@
                 <h3 style="color: #38bdf8; margin-bottom: 8px; font-size: 1rem;">⚙️ 사이트 정보 및 프로필 변경</h3>
                 <label style="font-size: 0.85rem; color: #94a3b8;">메인 타이틀</label>
                 <input type="text" id="edit-site-title" value="SWEET 퀴즈">
+                
                 <label style="font-size: 0.85rem; color: #94a3b8;">서브 타이틀</label>
                 <input type="text" id="edit-site-subtitle" value="스윗에 대해 얼마나 알고 있을까요?">
-                <label style="font-size: 0.85rem; color: #94a3b8;">프로필 사진 이미지 주소 (URL)</label>
-                <input type="text" id="edit-profile-img" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop">
+                
+                <label style="font-size: 0.85rem; color: #94a3b8;">프로필 사진 파일 선택 (컴퓨터에서 고르기)</label>
+                <input type="file" id="edit-profile-file" accept="image/*">
+                
                 <button class="btn" onclick="saveSiteSettings()">설정 저장</button>
             </div>
 
@@ -362,7 +370,6 @@
             
             document.getElementById('edit-site-title').value = config.title;
             document.getElementById('edit-site-subtitle').value = config.subtitle;
-            document.getElementById('edit-profile-img').value = config.profileImg;
         }
 
         window.onload = function() {
@@ -466,7 +473,7 @@
             if (pw === '1220') {
                 showAdminDashboard();
             } else {
-                alert('비밀번호가 틀렸습니다.');
+                alert('비밀번호가 틀렸습니다!');
             }
         }
 
@@ -479,9 +486,24 @@
         function saveSiteSettings() {
             const title = document.getElementById('edit-site-title').value;
             const subtitle = document.getElementById('edit-site-subtitle').value;
-            const profileImg = document.getElementById('edit-profile-img').value;
-            saveSiteConfigToStorage({ title, subtitle, profileImg });
-            alert('사이트 정보와 프로필이 성공적으로 변경되었습니다!');
+            const fileInput = document.getElementById('edit-profile-file');
+            
+            let config = getSiteConfig();
+            config.title = title;
+            config.subtitle = subtitle;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    config.profileImg = e.target.result; // 이미지 파일을 Base64 데이터로 변환하여 저장
+                    saveSiteConfigToStorage(config);
+                    alert('사이트 정보와 프로필 사진이 성공적으로 변경되었습니다!');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveSiteConfigToStorage(config);
+                alert('사이트 정보가 성공적으로 변경되었습니다!');
+            }
         }
 
         // 순위 관리 기능
