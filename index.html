@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-tag">스윗 DJ 퀴즈</title>
+    <title id="site-title-tag">SWEET 퀴즈</title>
     <style>
         * {
             box-sizing: border-box;
@@ -21,6 +21,39 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+        }
+
+        /* 왼쪽 상단 로고 및 프사 영역 */
+        .top-brand {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .top-brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #38bdf8;
+        }
+
+        .top-brand span {
+            font-weight: bold;
+            font-size: 1.05rem;
+            color: #38bdf8;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
         }
 
         .container {
@@ -33,8 +66,9 @@
             width: 100%;
             max-width: 600px;
             text-align: center;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
+            margin-top: 40px;
         }
 
         h1 {
@@ -50,7 +84,7 @@
             margin-bottom: 25px;
         }
 
-        input[type="text"], select {
+        input[type="text"], input[type="password"], select {
             width: 100%;
             padding: 12px 16px;
             background-color: rgba(30, 41, 59, 0.8);
@@ -63,7 +97,7 @@
             transition: all 0.3s;
         }
 
-        input[type="text"]:focus, select:focus {
+        input[type="text"]:focus, input[type="password"]:focus, select:focus {
             border-color: #38bdf8;
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
         }
@@ -143,20 +177,29 @@
         .admin-item {
             background: rgba(30, 41, 59, 0.5);
             border: 1px solid #334155;
-            padding: 12px;
+            padding: 10px 12px;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-align: left;
             font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
+    <!-- 왼쪽 상단 로고 및 프사 영역 -->
+    <div class="top-brand">
+        <img id="brand-profile-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="프로필 사진">
+        <span id="brand-title-text">SWEET 퀴즈</span>
+    </div>
+
     <div class="container">
         <!-- 홈 화면 -->
         <div id="home-section" class="section active">
-            <h1 id="main-title">스윗 DJ 퀴즈</h1>
+            <h1 id="main-title">SWEET 퀴즈</h1>
             <p class="subtitle" id="main-subtitle">스윗에 대해 얼마나 알고 있을까요?</p>
             <input type="text" id="username" placeholder="스스로의 닉네임을 입력하세요">
             <div>
@@ -166,7 +209,7 @@
             </div>
         </div>
 
-        <!-- 관리자 로그인 화면 (간이 비밀번호) -->
+        <!-- 관리자 로그인 화면 -->
         <div id="admin-login-section" class="section">
             <h1>관리자 인증</h1>
             <p class="subtitle">관리자 비밀번호를 입력하세요 (기본: 1234)</p>
@@ -177,26 +220,38 @@
             </div>
         </div>
 
-        <!-- 관리자 대시보드 (모든 것 변경 가능) -->
+        <!-- 관리자 대시보드 -->
         <div id="admin-section" class="section">
             <h1>관리자 대시보드</h1>
-            <p class="subtitle">사이트 설정 및 퀴즈 데이터를 자유롭게 관리하세요.</p>
+            <p class="subtitle">사이트 설정, 퀴즈 문제 및 순위를 자유롭게 관리하세요.</p>
             
+            <!-- 사이트 기본 정보 설정 -->
             <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
-                <h3 style="color: #38bdf8; margin-bottom: 8px; font-size: 1rem;">⚙️ 사이트 기본 정보 변경</h3>
+                <h3 style="color: #38bdf8; margin-bottom: 8px; font-size: 1rem;">⚙️ 사이트 정보 및 프로필 변경</h3>
                 <label style="font-size: 0.85rem; color: #94a3b8;">메인 타이틀</label>
-                <input type="text" id="edit-site-title" value="스윗 DJ 퀴즈">
+                <input type="text" id="edit-site-title" value="SWEET 퀴즈">
                 <label style="font-size: 0.85rem; color: #94a3b8;">서브 타이틀</label>
                 <input type="text" id="edit-site-subtitle" value="스윗에 대해 얼마나 알고 있을까요?">
+                <label style="font-size: 0.85rem; color: #94a3b8;">프로필 사진 이미지 주소 (URL)</label>
+                <input type="text" id="edit-profile-img" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop">
                 <button class="btn" onclick="saveSiteSettings()">설정 저장</button>
             </div>
 
+            <!-- 순위 관리 섹션 -->
+            <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
+                <h3 style="color: #38bdf8; margin-bottom: 10px; font-size: 1rem;">🏆 순위 데이터 관리</h3>
+                <div id="admin-ranking-list" style="max-height: 150px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px;">
+                    <!-- 순위 목록이 동적으로 들어감 -->
+                </div>
+            </div>
+
+            <!-- 퀴즈 문제 관리 섹션 -->
             <div style="text-align: left; margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <h3 style="color: #38bdf8; font-size: 1rem;">📝 퀴즈 문제 관리</h3>
                     <button class="btn" onclick="openQuestionModal()">+ 새 문제 추가</button>
                 </div>
-                <div id="admin-question-list" style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                <div id="admin-question-list" style="max-height: 200px; overflow-y: auto; padding-right: 5px;">
                     <!-- 문제 목록이 동적으로 들어감 -->
                 </div>
             </div>
@@ -252,7 +307,7 @@
 
         <!-- 순위 화면 -->
         <div id="ranking-section" class="section">
-            <h1>스윗 퀴즈 순위</h1>
+            <h1>SWEET 퀴즈 순위</h1>
             <div id="ranking-list" style="margin: 20px 0; color: #94a3b8; font-size: 0.95rem; max-height: 200px; overflow-y: auto;">
                 등록된 순위가 없습니다.
             </div>
@@ -261,7 +316,6 @@
     </div>
 
     <script>
-        // 기본 설정 및 초기 데이터 (브라우저 저장소에 없을 경우 기본값 사용)
         const defaultQuizData = [
             { question: "스윗의 아이디는?", options: ["kkwo130", "sweet_dj", "kimji_130", "dj_kkwo"], answer: 0 },
             { question: "스윗의 팬 수는?", options: ["50명", "73명", "100명", "120명"], answer: 1 },
@@ -275,7 +329,6 @@
             { question: "스윗의 직업은?", options: ["크리에이터", "학생", "심리상담사", "디자이너"], answer: 2 }
         ];
 
-        // 데이터 불러오기 (Local Storage 연동)
         function getQuizData() {
             let data = localStorage.getItem('sweetCustomQuizData');
             return data ? JSON.parse(data) : defaultQuizData;
@@ -287,7 +340,11 @@
 
         function getSiteConfig() {
             let config = localStorage.getItem('sweetSiteConfig');
-            return config ? JSON.parse(config) : { title: "스윗 DJ 퀴즈", subtitle: "스윗에 대해 얼마나 알고 있을까요?" };
+            return config ? JSON.parse(config) : { 
+                title: "SWEET 퀴즈", 
+                subtitle: "스윗에 대해 얼마나 알고 있을까요?",
+                profileImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
+            };
         }
 
         function saveSiteConfigToStorage(config) {
@@ -300,11 +357,14 @@
             document.getElementById('main-title').innerText = config.title;
             document.getElementById('main-subtitle').innerText = config.subtitle;
             document.getElementById('site-title-tag').innerText = config.title;
+            document.getElementById('brand-title-text').innerText = config.title;
+            document.getElementById('brand-profile-img').src = config.profileImg;
+            
             document.getElementById('edit-site-title').value = config.title;
             document.getElementById('edit-site-subtitle').value = config.subtitle;
+            document.getElementById('edit-profile-img').value = config.profileImg;
         }
 
-        // 페이지 로드 시 설정 적용
         window.onload = function() {
             applySiteConfig();
         };
@@ -403,25 +463,76 @@
 
         function checkAdminPassword() {
             const pw = document.getElementById('admin-pw').value;
-            if (pw === '1220') { // 원하시는 비밀번호로 변경 가능
+            if (pw === '1234') {
                 showAdminDashboard();
             } else {
-                alert('비밀번호가 틀렸습니다!');
+                alert('비밀번호가 틀렸습니다! (기본: 1234)');
             }
         }
 
         function showAdminDashboard() {
             switchSection('admin-section');
             renderAdminQuestionList();
+            renderAdminRankingList();
         }
 
         function saveSiteSettings() {
             const title = document.getElementById('edit-site-title').value;
             const subtitle = document.getElementById('edit-site-subtitle').value;
-            saveSiteConfigToStorage({ title, subtitle });
-            alert('사이트 정보가 성공적으로 변경되었습니다!');
+            const profileImg = document.getElementById('edit-profile-img').value;
+            saveSiteConfigToStorage({ title, subtitle, profileImg });
+            alert('사이트 정보와 프로필이 성공적으로 변경되었습니다!');
         }
 
+        // 순위 관리 기능
+        function renderAdminRankingList() {
+            let rankings = JSON.parse(localStorage.getItem('sweetQuizRankings') || '[]');
+            const listEl = document.getElementById('admin-ranking-list');
+            listEl.innerHTML = '';
+
+            if (rankings.length === 0) {
+                listEl.innerHTML = '<div style="color: #94a3b8; font-size: 0.85rem;">기록된 순위가 없습니다.</div>';
+                return;
+            }
+
+            rankings.forEach((r, idx) => {
+                let div = document.createElement('div');
+                div.className = 'admin-item';
+                div.innerHTML = `
+                    <span style="font-size: 0.9rem;"><b>${idx+1}. ${r.name}</b> (${r.score}점)</span>
+                    <div>
+                        <button class="btn" style="padding: 3px 8px; font-size: 0.75rem;" onclick="editRankingScore(${idx})">수정</button>
+                        <button class="btn btn-danger" style="padding: 3px 8px; font-size: 0.75rem;" onclick="deleteRankingItem(${idx})">삭제</button>
+                    </div>
+                `;
+                listEl.appendChild(div);
+            });
+        }
+
+        function editRankingScore(index) {
+            let rankings = JSON.parse(localStorage.getItem('sweetQuizRankings') || '[]');
+            let current = rankings[index];
+            let newName = prompt("변경할 닉네임을 입력하세요:", current.name);
+            if (newName === null) return;
+            let newScore = prompt("변경할 점수를 입력하세요:", current.score);
+            if (newScore === null) return;
+
+            rankings[index] = { name: newName, score: parseInt(newScore) || 0 };
+            rankings.sort((a, b) => b.score - a.score);
+            localStorage.setItem('sweetQuizRankings', JSON.stringify(rankings));
+            renderAdminRankingList();
+        }
+
+        function deleteRankingItem(index) {
+            if (confirm('이 순위 기록을 삭제하시겠습니까?')) {
+                let rankings = JSON.parse(localStorage.getItem('sweetQuizRankings') || '[]');
+                rankings.splice(index, 1);
+                localStorage.setItem('sweetQuizRankings', JSON.stringify(rankings));
+                renderAdminRankingList();
+            }
+        }
+
+        // 문제 관리 기능
         function renderAdminQuestionList() {
             const quizData = getQuizData();
             const listEl = document.getElementById('admin-question-list');
@@ -431,10 +542,13 @@
                 let div = document.createElement('div');
                 div.className = 'admin-item';
                 div.innerHTML = `
-                    <div style="font-weight: bold; margin-bottom: 4px; color: #38bdf8;">Q${idx+1}. ${q.question}</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px;">정답: ${q.options[q.answer]}</div>
-                    <button class="btn" style="padding: 4px 10px; font-size: 0.8rem;" onclick="editQuestion(${idx})">수정</button>
-                    <button class="btn btn-danger" style="padding: 4px 10px; font-size: 0.8rem;" onclick="deleteQuestion(${idx})">삭제</button>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px;">
+                        <span style="font-weight: bold; color: #38bdf8;">Q${idx+1}.</span> ${q.question}
+                    </div>
+                    <div>
+                        <button class="btn" style="padding: 3px 8px; font-size: 0.75rem;" onclick="editQuestion(${idx})">수정</button>
+                        <button class="btn btn-danger" style="padding: 3px 8px; font-size: 0.75rem;" onclick="deleteQuestion(${idx})">삭제</button>
+                    </div>
                 `;
                 listEl.appendChild(div);
             });
